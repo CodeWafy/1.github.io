@@ -1,1 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transition to Pray Button</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Electrolize&display=swap" rel="stylesheet">
+    <style>
+        /* Centered body setup */
+        body {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+          margin: 0;
+          background-color: #333;
+          font-family: 'Electrolize', sans-serif;
+          overflow: hidden;
+          cursor: pointer;
+        }
 
+        /* Window styling with blur for the h1 element */
+        .window {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: rgba(0, 0, 0, 0.3);
+          backdrop-filter: blur(10px);
+          transition: opacity 1s ease;
+          z-index: 1;
+        }
+
+        /* h1 styling */
+        h1 {
+          font-size: 5em;
+          color: white;
+          user-select: none; /* Disable text selection */
+          margin: 0;
+        }
+
+        /* Fade-out effect */
+        .fade-out {
+          opacity: 0;
+        }
+
+        /* Button styling */
+        .button {
+          display: none; /* Hidden initially */
+          font-size: 3em;
+          color: white;
+          background: none;
+          border: 2px solid white;
+          padding: 10px 20px;
+          border-radius: 8px;
+          cursor: pointer;
+          opacity: 0;
+          position: absolute;
+          top: 40%; /* Adjust to move the button slightly above center */
+          left: 50%;
+          transform: translate(-50%, -50%);
+          transition: opacity 1s ease;
+          z-index: 2;
+        }
+
+        /* Class to show and fade in buttons */
+        .fade-in {
+          display: block;
+          opacity: 1;
+        }
+
+        /* Display message */
+        .message {
+          font-size: 2em;
+          color: white;
+          position: absolute;
+          top: 60%;
+          text-align: center;
+          display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Container for the h1 with blurred background -->
+    <div class="window" id="window">
+        <h1>THE FUCK MACHINE</h1>
+    </div>
+
+    <!-- Wish button -->
+    <button class="button" id="wishButton">Wish?</button>
+
+    <!-- Pray button -->
+    <button class="button" id="prayButton">Pray</button>
+
+    <!-- Message display area -->
+    <div class="message" id="messageDisplay"></div>
+
+    <script>
+      // JavaScript for transitions and click events
+      document.body.addEventListener('click', function handleClick() {
+          const windowElement = document.getElementById("window");
+          const h1Element = windowElement.querySelector("h1");
+          const wishButton = document.getElementById("wishButton");
+
+          // Fade out the h1 window
+          windowElement.classList.add("fade-out");
+          h1Element.classList.add("fade-out"); // Also fade out the h1 text
+
+          // After the fade-out transition completes, hide the h1 window and show the Wish button
+          setTimeout(function() {
+              windowElement.style.display = "none"; // Hide h1 window
+              h1Element.style.display = "none"; // Hide h1 element
+              wishButton.classList.add("fade-in"); // Show and fade in the Wish button
+          }, 1000); // Match the CSS transition duration (1s)
+
+          // Remove the event listener after the first click
+          document.body.removeEventListener('click', handleClick);
+      });
+
+      // Click event for Wish button to show Pray button
+      document.getElementById("wishButton").addEventListener('click', function() {
+          const wishButton = document.getElementById("wishButton");
+          const prayButton = document.getElementById("prayButton");
+
+          // Fade out the Wish button (same as h1 fade out)
+          wishButton.classList.add("fade-out");
+
+          // After the fade-out transition completes, hide Wish button and show Pray button
+          setTimeout(function() {
+              wishButton.style.display = "none";
+              prayButton.classList.add("fade-in");
+          }, 1000); // Match the CSS transition duration
+      });
+
+      // Counter and click event for Pray button
+      let followerCount = 1;
+      document.getElementById("prayButton").addEventListener('click', function() {
+          const messageDisplay = document.getElementById("messageDisplay");
+
+          // Update message
+          if (followerCount === 1) {
+              messageDisplay.textContent = "Kafka has made a follower";
+          } else {
+              messageDisplay.textContent = `Kafka has made a follower (${followerCount})`;
+          }
+
+          // Show message display and increment counter
+          messageDisplay.style.display = "block";
+          followerCount++;
+      });
+    </script>
+</body>
+</html>
